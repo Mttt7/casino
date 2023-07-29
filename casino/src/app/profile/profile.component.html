@@ -1,0 +1,97 @@
+<div class="background">
+    <div class="container">
+
+        <div class="profile-info">
+
+            <div class="upper-section">
+
+
+                <div class="profile-photo" [ngStyle]="{'background-image': 'url(' + profilePhotoSrc + ')'}"
+                    (mouseover)="hover=true" (mouseout)="hover=false" (click)="openModalChangeProfilePhoto()">
+                    <div class="change-profile-photo" [ngClass]="{'show': hover}">
+                        <img src="./assets/images/gear.png">
+                        <p>change profile picture</p>
+                    </div>
+
+
+                </div>
+                <div class="name-wrapper">
+                    <div class="name">{{this.name}}
+                        <img src="./assets/images/gear.png" (click)="openModalChangeName()">
+                    </div>
+                    <div class="balance">${{getBalance()}}</div>
+                </div>
+                <div class="balance-wrapper">
+                    <div class="starting-balance">Starting Balance: ${{getStartingBalance()}}</div>
+                </div>
+            </div>
+
+            <div class="bottom-section">
+                <div class="reset-btn">RESET</div>
+                <div class="take-photo-btn">
+                    <img src="/assets/images/camera.png" alt="">
+                </div>
+            </div>
+
+
+        </div>
+
+        <div class="stats">
+
+            <div class="money-won">
+                <div class="overall-stats">
+                    <div class="games-profit">Overall profit: {{getProfit('all')}}</div>
+                    <div class="games-money-won">Overall money won: ${{getMoneyWonOnGame('all')}}</div>
+                    <div class="games-money-spent">Overall money spent: ${{getMoneySpentOnGame('all')}}</div>
+                </div>
+
+
+                <div class="game" *ngFor="let game of games">
+                    <div class="game-name">{{game.name}}</div>
+                    <div class="money-won-on-game">won: ${{getMoneyWonOnGame(game.name.toLowerCase())}}</div>
+                    <div class="money-lost-on-game">spent: ${{getMoneySpentOnGame(game.name.toLowerCase())}}</div>
+                    <div class="profit-on-game">{{getProfit(game.name.toLowerCase())}}</div>
+                </div>
+            </div>
+
+            <div class="games-played">
+                <div class="games-played">Overall games played: {{getGamesPlayed('all')}}</div>
+                <div class="game" *ngFor="let game of games">
+                    <div class="game-name">{{game.name}} : {{getGamesPlayed(game.name.toLowerCase())}}</div>
+
+                </div>
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+
+
+    <div class="change-profile-photo-modal" *ngIf="changePhotoModal">
+        <div class="photos">
+            <div class="photo" *ngFor="let photo of photos, let i= index" (click)="changeProfilePhoto(i)">
+                <img [src]="photo.src">
+            </div>
+        </div>
+    </div>
+
+    <div class="change-name-modal" *ngIf="changeNameModal">
+        <div class="change-name-wrapper">
+            <div class="upper-wrapper">
+                <input type="text" maxlength="12" [(ngModel)]="newName">
+            </div>
+            <div class="bottom-wrapper">
+                <div class="cancel-button button" (click)="changeNameModal=false">CANCEL</div>
+                <div class="ok-button button" (click)="changeName()">OK</div>
+            </div>
+        </div>
+
+
+    </div>
+
+
+
+</div>

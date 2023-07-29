@@ -1,0 +1,64 @@
+.container {
+    padding: 15px 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+
+    background-image: url('/assets/images/chips-header.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+
+    font-family: 'Kanit', sans-serif;
+    //height: 100%;
+}
+
+.logo {
+    font-size: 5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+.menu {
+    font-size: 2rem;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+ul {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+li {
+    display: flex;
+    gap: 1rem;
+
+}
+
+a {
+    text-decoration: none;
+    color: white;
+    font-style: bold;
+}
+
+a:hover {
+    color: red;
+}
+
+.balance-info {
+    margin-left: 2rem;
+}
+
+.active {
+    a {
+        color: #c03535;
+    }
+
+}

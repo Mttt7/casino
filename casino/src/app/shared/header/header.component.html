@@ -1,0 +1,18 @@
+<div class="container">
+    <div class="logo">CASINO</div>
+    <div class="menu">
+        <ul>
+            <li routerLinkActive="active">
+                <a [routerLink]="['/home']">HOME</a>
+            </li>
+            <li routerLinkActive="active">
+                <a [routerLink]="['/games']">GAMES</a>
+            </li>
+            <li routerLinkActive="active">
+                <a [routerLink]="['/profile']">PROFILE({{getBalance()}} $)</a>
+
+            </li>
+        </ul>
+
+    </div>
+</div>

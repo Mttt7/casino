@@ -1,0 +1,20 @@
+<div class="container">
+    <router-outlet></router-outlet>
+
+    <div *ngIf="!gameSelected" class="games">
+        <div class="game" *ngFor="let game of games" [style.background-image]="'url(' + game.image + ')'">
+            <div class="game-name">{{game.name}}</div>
+            <div class="game-decription">{{game.description}}</div>
+            <!-- <div class="game-image">
+                <img [src]="game.image" alt="">
+            </div> -->
+            <div class="wrapper">
+                <div class="game-stakes">stakes: ${{game.stakes}}</div>
+                <div class="join-button">
+                    <a routerLink="{{game.route}}" (click)="gameSelected = true">JOIN</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
