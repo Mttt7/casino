@@ -12,6 +12,7 @@ export class RouletteGameService {
   history = []
 
   cells = [
+    //usunac multipler ale sprawdzic czy napewno nie sa nigdzie uzywane!!!!
     { number: 0, color: this.green, multiplier: 15, type: ['green', 'even'], rotate: '0deg' },
     { number: 1, color: this.blue, multiplier: 2.65, type: ['blue', 'odd'], rotate: '45deg' },
     { number: 2, color: this.red, multiplier: 1.65, type: ['red', 'even'], rotate: '90deg' },

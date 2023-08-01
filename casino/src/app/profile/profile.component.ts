@@ -21,6 +21,8 @@ export class ProfileComponent implements OnInit {
   changeNameModal = false
   photos: any = []
 
+  newStartingBalance = 0
+
   newName = ''
 
   constructor(private profileService: ProfileService,
@@ -34,10 +36,14 @@ export class ProfileComponent implements OnInit {
     this.name = this.profileService.getName()
     this.photos = this.profileService.getProfilePhotos()
 
-
-    // setInterval(() => {
-    //   console.log(this.hover)
-    // }, 1000)
+  }
+  applyNewUser() {
+    if (this.newStartingBalance > 0) {
+      this.profileService.setStartingBalance(this.newStartingBalance)
+    }
+  }
+  sliderChanged(event: any) {
+    console.log(this.newStartingBalance)
   }
 
   getFormatedBalance() {
@@ -45,7 +51,8 @@ export class ProfileComponent implements OnInit {
   }
 
   formatNumber(number: number) {
-    return numeral(number).format('0a')
+    return numeral(number).format('0[.][000000]a')
+
   }
 
   getMoneyWonOnGame(game: string) {
@@ -73,7 +80,7 @@ export class ProfileComponent implements OnInit {
     return this.formatNumber(this.profileService.getBalance())
   }
   getStartingBalance() {
-    return this.profileService.getStartingBalance()
+    return this.formatNumber(this.profileService.getStartingBalance())
   }
 
   openModalChangeProfilePhoto() {
@@ -92,5 +99,10 @@ export class ProfileComponent implements OnInit {
     this.profileService.setName(this.newName)
     this.changeNameModal = false
     this.name = this.newName
+  }
+
+  resetGame() {
+    this.profileService.resetGame()
+    this.ngOnInit()
   }
 }

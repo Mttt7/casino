@@ -112,8 +112,9 @@ export class ProfileService {
     this.saveData()
   }
 
+
   getStartingBalance() {
-    return numeral(this.startingBalance).format('0a')
+    return this.startingBalance
   }
 
   setName(name: string) {
@@ -122,13 +123,14 @@ export class ProfileService {
   }
 
   setStartingBalance(startingBalance: number) {
-    if (this.startingBalance === 0 && startingBalance > 0 && startingBalance <= 20000) {
+    if (startingBalance > 0 && startingBalance <= 20000) {
       this.startingBalance = startingBalance
-      return this.startingBalance
+      this.balance = startingBalance
       this.saveData()
+      return true
     }
     else {
-      return 0
+      return false
     }
 
   }
@@ -222,6 +224,8 @@ export class ProfileService {
       blackjack: 0
     }
     this.saveData()
+    this.getData()
+
   }
 
 

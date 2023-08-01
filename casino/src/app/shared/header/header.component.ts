@@ -20,6 +20,9 @@ export class HeaderComponent {
 
 
   getBalance() {
-    return numeral(this.profileService.getBalance()).format('0a');
+    return numeral(this.profileService.getBalance()).format('0[.][000000]a')
+  }
+  getName() {
+    return this.profileService.getName()
   }
 }

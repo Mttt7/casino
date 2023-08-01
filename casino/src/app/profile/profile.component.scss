@@ -9,7 +9,8 @@
     font-family: 'Kanit', sans-serif;
 }
 
-.container {
+.container,
+.container-new-user {
     width: 800px;
 
     gap: 4rem;
@@ -23,6 +24,28 @@
 
     border-radius: 20px;
     padding: 3rem;
+
+}
+
+
+.container-new-user {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 2rem;
+
+    mat-slider {
+        width: 200px;
+        transform: scale(1.5);
+
+    }
+
+    .ok-button:hover {
+        cursor: pointer;
+        transform: scale(1.08);
+    }
 
 }
 

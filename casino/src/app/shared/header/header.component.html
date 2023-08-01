@@ -9,7 +9,7 @@
                 <a [routerLink]="['/games']">GAMES</a>
             </li>
             <li routerLinkActive="active">
-                <a [routerLink]="['/profile']">PROFILE({{getBalance()}} $)</a>
+                <a [routerLink]="['/profile']">{{getName()}} ({{getBalance()}} $)</a>
 
             </li>
         </ul>
