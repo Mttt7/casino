@@ -6,6 +6,8 @@ import * as numeral from 'numeral';
 export class ProfileService {
 
 
+
+
   name: string = 'John'
   startingBalance: number = 0
   balance: number = 50000
@@ -36,7 +38,28 @@ export class ProfileService {
   selectedProfilePhotoIndex = 0
 
 
-  constructor() { }
+
+  saveData() {
+    localStorage.setItem('name', JSON.stringify(this.name));
+    localStorage.setItem('startingBalance', JSON.stringify(this.startingBalance));
+    localStorage.setItem('balance', JSON.stringify(this.balance));
+    localStorage.setItem('gamesPlayed', JSON.stringify(this.gamesPlayed));
+    localStorage.setItem('moneySpentOnGames', JSON.stringify(this.moneySpentOnGames));
+    localStorage.setItem('moneyWonOnGames', JSON.stringify(this.moneyWonOnGames));
+    localStorage.setItem('selectedProfilePhotoIndex', JSON.stringify(this.selectedProfilePhotoIndex));
+  }
+  getData() {
+    this.name = JSON.parse(localStorage.getItem('name')) || 'John';
+    this.startingBalance = JSON.parse(localStorage.getItem('startingBalance')) || 0;
+    this.balance = JSON.parse(localStorage.getItem('balance')) || 0;
+    this.gamesPlayed = JSON.parse(localStorage.getItem('gamesPlayed')) || { roulette: 0, blackjack: 0 };
+    this.moneySpentOnGames = JSON.parse(localStorage.getItem('moneySpentOnGames')) || { roulette: 0, blackjack: 0 };
+    this.moneyWonOnGames = JSON.parse(localStorage.getItem('moneyWonOnGames')) || { roulette: 0, blackjack: 0 };
+    this.selectedProfilePhotoIndex = JSON.parse(localStorage.getItem('selectedProfilePhotoIndex')) || 0;
+
+  }
+
+
 
   newGame(type: string) {
     if (type === 'roulette') {
@@ -45,6 +68,7 @@ export class ProfileService {
     else if (type === 'blackjack') {
       this.gamesPlayed.blackjack++
     }
+    this.saveData()
   }
   gameWon(type: string, winningAmount: number) {
     if (type === 'roulette') {
@@ -53,6 +77,7 @@ export class ProfileService {
     else if (type === 'blackjack') {
       this.moneyWonOnGames.blackjack += winningAmount
     }
+    this.saveData()
   }
   moneySpend(type: string, lostAmount: number) {
     if (type === 'roulette') {
@@ -61,6 +86,7 @@ export class ProfileService {
     else if (type === 'blackjack') {
       this.moneySpentOnGames.blackjack += lostAmount
     }
+    this.saveData()
   }
   getName() {
     return this.name;
@@ -72,6 +98,7 @@ export class ProfileService {
   }
   changeBalance(amount: number) {
     this.balance += amount
+    this.saveData()
   }
 
   getProfilePhoto() {
@@ -82,6 +109,7 @@ export class ProfileService {
   }
   setProfilePhoto(index: number) {
     this.selectedProfilePhotoIndex = index
+    this.saveData()
   }
 
   getStartingBalance() {
@@ -90,16 +118,19 @@ export class ProfileService {
 
   setName(name: string) {
     this.name = name
+    this.saveData()
   }
 
   setStartingBalance(startingBalance: number) {
     if (this.startingBalance === 0 && startingBalance > 0 && startingBalance <= 20000) {
       this.startingBalance = startingBalance
       return this.startingBalance
+      this.saveData()
     }
     else {
       return 0
     }
+
   }
 
   getGamesPlayed(game: string) {
@@ -190,7 +221,12 @@ export class ProfileService {
       roulette: 0,
       blackjack: 0
     }
+    this.saveData()
   }
 
+
+  constructor() {
+    this.getData()
+  }
 
 }
