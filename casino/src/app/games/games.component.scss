@@ -1,9 +1,12 @@
 .container {
-    height: 1000px;
+    height: 900px;
 
     background-image: url('/assets/images/games-background2.png');
     background-size: cover;
     background-repeat: no-repeat;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .games {

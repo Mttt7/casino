@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ProfileService } from '../core/services/profile.service';
 import { GamesService } from '../core/services/games.service';
 import { Router } from '@angular/router';
+import * as numeral from 'numeral';
 
 @Component({
   selector: 'app-profile',
@@ -39,19 +40,27 @@ export class ProfileComponent implements OnInit {
     // }, 1000)
   }
 
+  getFormatedBalance() {
+    return this.formatNumber(this.profileService.getBalance())
+  }
+
+  formatNumber(number: number) {
+    return numeral(number).format('0a')
+  }
+
   getMoneyWonOnGame(game: string) {
-    return this.profileService.getMoneyWon(game)
+    return this.formatNumber(this.profileService.getMoneyWon(game))
   }
   getMoneySpentOnGame(game: string) {
-    return this.profileService.getMoneySpent(game)
+    return this.formatNumber(this.profileService.getMoneySpent(game))
   }
   getProfit(game: string) {
     let profit = this.profileService.getProfit(game)
     if (profit >= 0) {
-      return this.profileService.getProfit(game)
+      return this.formatNumber(this.profileService.getProfit(game))
     }
     else if (profit < 0) {
-      return `-$${Math.abs(this.profileService.getProfit(game))}`
+      return `-$${this.formatNumber(Math.abs(this.profileService.getProfit(game)))}`
     }
     else {
       return 0
@@ -61,7 +70,7 @@ export class ProfileComponent implements OnInit {
     return this.profileService.getGamesPlayed(game)
   }
   getBalance() {
-    return this.profileService.getBalance()
+    return this.formatNumber(this.profileService.getBalance())
   }
   getStartingBalance() {
     return this.profileService.getStartingBalance()

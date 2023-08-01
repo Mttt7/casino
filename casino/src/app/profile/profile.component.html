@@ -19,7 +19,7 @@
                     <div class="name">{{this.name}}
                         <img src="./assets/images/gear.png" (click)="openModalChangeName()">
                     </div>
-                    <div class="balance">${{getBalance()}}</div>
+                    <div class="balance">${{getFormatedBalance()}}</div>
                 </div>
                 <div class="balance-wrapper">
                     <div class="starting-balance">Starting Balance: ${{getStartingBalance()}}</div>
@@ -50,7 +50,7 @@
                     <div class="game-name">{{game.name}}</div>
                     <div class="money-won-on-game">won: ${{getMoneyWonOnGame(game.name.toLowerCase())}}</div>
                     <div class="money-lost-on-game">spent: ${{getMoneySpentOnGame(game.name.toLowerCase())}}</div>
-                    <div class="profit-on-game">{{getProfit(game.name.toLowerCase())}}</div>
+                    <div class="profit-on-game">profit: {{getProfit(game.name.toLowerCase())}}</div>
                 </div>
             </div>
 

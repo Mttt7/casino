@@ -1,1 +1,78 @@
-<p>roulette works!</p>
+<div class="container">
+    <div class="roulette-wrapper">
+        <div class="history">
+            <div class="history-element" *ngFor="let historyElement of history"
+                [style.background]="historyElement.color">
+                {{historyElement.number}}
+            </div>
+        </div>
+        <div class="bet-info screen-message">
+            {{screenMessage}}
+        </div>
+        <span class="arrow"></span>
+        <div class="roulette">
+            <div class="wheel" [style.transform]="'rotate(' + currentRotation + ')'">
+                <div class="cell" *ngFor="let cell of cells" [style.background-color]="cell.color"
+                    [style.transform]="'rotate(' + cell.rotate + ')'">
+                    {{cell.number}}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="user-input-wrapper">
+        <div class="bet-details">
+            <div class="amount">
+                <input type="number" step="100" [(ngModel)]="stake" [max]="balance">
+            </div>
+            <div class="multipler">Multipler: {{multipler}}</div>
+            <div class="winning-amount">Winning Amount: {{getWinningAmount()}}</div>
+        </div>
+
+
+        <div class="buttons">
+            <div class="low">
+                <div class="stake-button low1" (click)="increaseStake(50)">50</div>
+                <div class="stake-button low2" (click)="increaseStake(100)">100</div>
+                <div class="stake-button low3" (click)="increaseStake(500)">500</div>
+            </div>
+            <div class="mid">
+                <div class="stake-button mid1" (click)="increaseStake(1000)">1K</div>
+                <div class="stake-button mid2" (click)="increaseStake(2500)">2.5K</div>
+                <div class="stake-button mid3" (click)="increaseStake(5000)">5K</div>
+            </div>
+            <div class="high">
+                <div class="stake-button high1" (click)="increaseStake(10000)">10K</div>
+                <div class="stake-button high2" (click)="increaseStake(25000)">25K</div>
+                <div class="reset-button" (click)="resetStake()">
+                    RESET
+                </div>
+            </div>
+            <div class="special">
+                <div class="stake-special-button special1" (click)="increaseStakeSpecial('half')">x0.5</div>
+                <div class="stake-special-button special2" (click)="increaseStakeSpecial('double')">x2</div>
+                <div class="stake-special-button special3" (click)="increaseStakeSpecial('max')">MAX</div>
+            </div>
+
+        </div>
+        <div class="type">
+            <div class="color">
+                <div class="color-choose red" (click)="chooseBet('red')">RED</div>
+                <div class="color-choose blue" (click)="chooseBet('blue')">BLUE</div>
+                <div class="color-choose green" (click)="chooseBet('green')">GREEN</div>
+            </div>
+            <div class="odd-even">
+                <div class="odd" (click)="chooseBet('odd')">ODD</div>
+                <div class="even" (click)="chooseBet('even')">EVEN</div>
+            </div>
+            <div class="specific-number">
+                <input type="number" step="1" max="7" min="0" [(ngModel)]="specificNumber">
+                <div class="ok-button" (click)="chooseBet('specific-number')">OK</div>
+            </div>
+        </div>
+        <div class="spin-button" (click)="spin()">
+            SPIN
+        </div>
+    </div>
+
+</div>

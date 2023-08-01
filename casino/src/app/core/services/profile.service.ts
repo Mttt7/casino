@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-
+import * as numeral from 'numeral';
 @Injectable({
   providedIn: 'root'
 })
@@ -10,16 +10,16 @@ export class ProfileService {
   startingBalance: number = 0
   balance: number = 50000
   gamesPlayed = {
-    roulette: 40,
-    blackjack: 23
+    roulette: 0,
+    blackjack: 0
   }
   moneySpentOnGames = {
-    roulette: 5970,
-    blackjack: 1920
+    roulette: 0,
+    blackjack: 0
   }
   moneyWonOnGames = {
-    roulette: 450,
-    blackjack: 253230
+    roulette: 0,
+    blackjack: 0
   }
   profilePhotos = [
     { src: 'assets/images/profilePhotos/Thomas.png', name: 'Thomas' },
@@ -38,12 +38,40 @@ export class ProfileService {
 
   constructor() { }
 
+  newGame(type: string) {
+    if (type === 'roulette') {
+      this.gamesPlayed.roulette++
+    }
+    else if (type === 'blackjack') {
+      this.gamesPlayed.blackjack++
+    }
+  }
+  gameWon(type: string, winningAmount: number) {
+    if (type === 'roulette') {
+      this.moneyWonOnGames.roulette += winningAmount
+    }
+    else if (type === 'blackjack') {
+      this.moneyWonOnGames.blackjack += winningAmount
+    }
+  }
+  moneySpend(type: string, lostAmount: number) {
+    if (type === 'roulette') {
+      this.moneySpentOnGames.roulette += lostAmount
+    }
+    else if (type === 'blackjack') {
+      this.moneySpentOnGames.blackjack += lostAmount
+    }
+  }
   getName() {
     return this.name;
   }
 
   getBalance() {
-    return this.balance;
+
+    return this.balance
+  }
+  changeBalance(amount: number) {
+    this.balance += amount
   }
 
   getProfilePhoto() {
@@ -57,7 +85,7 @@ export class ProfileService {
   }
 
   getStartingBalance() {
-    return this.startingBalance;
+    return numeral(this.startingBalance).format('0a')
   }
 
   setName(name: string) {

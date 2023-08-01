@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { ProfileService } from 'src/app/core/services/profile.service';
-
+import * as numeral from 'numeral';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -20,6 +20,6 @@ export class HeaderComponent {
 
 
   getBalance() {
-    return this.profileService.getBalance();
+    return numeral(this.profileService.getBalance()).format('0a');
   }
 }
