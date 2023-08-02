@@ -2,15 +2,21 @@
     <div class="container-new-user" *ngIf="getStartingBalance()==0">
         <div class="info">Choose Your Starting Balance</div>
         <div class="slider-output">${{newStartingBalance}}</div>
-        <mat-slider min="100" max="5000" step="100" value="1000" (change)="sliderChanged($event)">
+
+
+
+        <mat-slider min="100" [max]="getMaxStartingBalance()" step="100" value="1000" (change)="sliderChanged($event)">
             <input matSliderThumb [(ngModel)]="newStartingBalance">
         </mat-slider>
         <div class="ok-button" (click)="applyNewUser()">
             OK
         </div>
     </div>
+    <div class="shop" *ngIf="shopOpened">
+        <div class="exit-button" (click)="toogleShopOpened()">EXIT</div>
+    </div>
 
-    <div class="container" *ngIf="getStartingBalance()!=0">
+    <div class="container" *ngIf="getStartingBalance()!=0 && !shopOpened">
 
         <div class="profile-info">
 
@@ -23,8 +29,6 @@
                         <img src="./assets/images/gear.png">
                         <p>change profile picture</p>
                     </div>
-
-
                 </div>
                 <div class="name-wrapper">
                     <div class="name">{{this.name}}
@@ -39,8 +43,8 @@
 
             <div class="bottom-section">
                 <div class="reset-btn" (click)="resetGame()">RESET</div>
-                <div class="take-photo-btn">
-                    <img src="/assets/images/camera.png" alt="">
+                <div class="open-shop-btn" (click)="toogleShopOpened()">
+                    <img src="/assets/images/shop.png" alt="">
                 </div>
             </div>
 
@@ -56,20 +60,52 @@
                     <div class="games-money-spent">Overall money spent: ${{getMoneySpentOnGame('all')}}</div>
                 </div>
 
-
-                <div class="game" *ngFor="let game of games">
-                    <div class="game-name">{{game.name}}</div>
-                    <div class="money-won-on-game">won: ${{getMoneyWonOnGame(game.name.toLowerCase())}}</div>
-                    <div class="money-lost-on-game">spent: ${{getMoneySpentOnGame(game.name.toLowerCase())}}</div>
-                    <div class="profit-on-game">profit: {{getProfit(game.name.toLowerCase())}}</div>
+                <div class="games-money-won">
+                    <div class="game" *ngFor="let game of games">
+                        <div class="game-name">{{game.name}}</div>
+                        <div class="money-won-on-game">won: ${{getMoneyWonOnGame(game.name.toLowerCase())}}</div>
+                        <div class="money-lost-on-game">spent: ${{getMoneySpentOnGame(game.name.toLowerCase())}}</div>
+                        <div class="profit-on-game">profit: {{getProfit(game.name.toLowerCase())}}</div>
+                    </div>
                 </div>
+
             </div>
 
-            <div class="games-played">
-                <div class="games-played">Overall games played: {{getGamesPlayed('all')}}</div>
-                <div class="game" *ngFor="let game of games">
-                    <div class="game-name">{{game.name}} : {{getGamesPlayed(game.name.toLowerCase())}}</div>
 
+            <div class="games-played">
+                <div class="text">
+                    Games played:
+                </div>
+                <div class="bottom">
+                    <div class="games-played">Overall: {{getGamesPlayed('all')}}</div>
+                    <div class="game" *ngFor="let game of games">
+                        <div class="game-name">{{game.name}} : {{getGamesPlayed(game.name.toLowerCase())}}</div>
+
+                    </div>
+                </div>
+
+            </div>
+            <div class="points-wrapper">
+                <div class="points">POINTS: {{formatNumber(updatePoints())}}
+                    <div class="info-button" (click)="toogleInfoClicked()">
+                        ?
+                    </div>
+                </div>
+                <div class="current-multipler">
+                    Current Multipler: x{{getCurrentMutipler()}} <br>
+                    Multipler after reset: x{{getMultiplerAfterReset()}}
+                </div>
+                <div class="formula">
+                    POINTS = (P/S) * M + 10*G-games<br>
+                    W-money won<br>
+                    S-starting balance<br>
+                    M-current Multipler<br>
+                    G-games played
+                </div>
+
+
+                <div class="info" *ngIf="infoClicked" (click)="toogleInfoClicked()">
+                    <img src="/assets/images/rules.png" alt="">
                 </div>
             </div>
 
@@ -80,11 +116,35 @@
 
 
 
+    <!-- <div class="profile-photo" [ngStyle]="{'background-image': 'url(' + profilePhotoSrc + ')'}"
+                    (mouseover)="hover=true" (mouseout)="hover=false" (click)="openModalChangeProfilePhoto()">
+                    <div class="change-profile-photo" [ngClass]="{'show': hover}">
+                        <img src="./assets/images/gear.png">
+                        <p>change profile picture</p>
+                    </div>
+                </div> -->
+
+    <!-- <div class="change-profile-photo" [ngClass]="{'show': hover}">
+                    <img src="./assets/images/gear.png">
+                    <p>change profile picture</p>
+                </div> -->
+
 
     <div class="change-profile-photo-modal" *ngIf="changePhotoModal">
         <div class="photos">
-            <div class="photo" *ngFor="let photo of photos, let i= index" (click)="changeProfilePhoto(i)">
-                <img [src]="photo.src">
+            <div class="photo" *ngFor="let photo of photos, let i= index" (click)="changeProfilePhoto(i)"
+                (mouseover)="profilePhotoHover=true" (mouseout)="profilePhotoHover=false">
+
+                <div class="profile-photo-container">
+                    <div class="profile-photo-to-choose" [style.background-image]="'url(' + photo.src + ')'"
+                        [ngClass]="{'locked': isPhotoLocked(i)}">
+                    </div>
+                    <div class="price">
+                        {{getPriceOfPhoto(i)}}
+                    </div>
+                </div>
+
+
             </div>
         </div>
     </div>

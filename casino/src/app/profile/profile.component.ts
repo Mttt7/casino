@@ -17,8 +17,12 @@ export class ProfileComponent implements OnInit {
   moneyWonOnGames: any = []
 
   hover = false
+  profilePhotoHover = false
   changePhotoModal = false
   changeNameModal = false
+  infoClicked = false
+  shopOpened = false
+
   photos: any = []
 
   newStartingBalance = 0
@@ -37,6 +41,33 @@ export class ProfileComponent implements OnInit {
     this.photos = this.profileService.getProfilePhotos()
 
   }
+
+  getPriceOfPhoto(i) {
+    if (this.photos[i].price === 0 || this.photos[i].bought) {
+      return ''
+    }
+    return `P${this.photos[i].price}`
+  }
+  isPhotoLocked(index: number) {
+
+    let profilePhoto = this.profileService.getProfilePhotos()[index]
+    return profilePhoto.bought ? false : true
+  }
+  toogleShopOpened() {
+    this.shopOpened = !this.shopOpened
+  }
+  getCurrentMutipler() {
+    return this.profileService.currentMultipler
+  }
+  getMultiplerAfterReset() {
+    return this.profileService.multiplerAfterReset
+  }
+  updatePoints() {
+    return this.profileService.updatePoints()
+  }
+  toogleInfoClicked() {
+    this.infoClicked = !this.infoClicked
+  }
   applyNewUser() {
     if (this.newStartingBalance > 0) {
       this.profileService.setStartingBalance(this.newStartingBalance)
@@ -51,7 +82,7 @@ export class ProfileComponent implements OnInit {
   }
 
   formatNumber(number: number) {
-    return numeral(number).format('0[.][000000]a')
+    return numeral(number).format('0[.][000]a').toUpperCase()
 
   }
 
@@ -87,9 +118,14 @@ export class ProfileComponent implements OnInit {
     this.changePhotoModal = true
   }
   changeProfilePhoto(index: number) {
-    this.profilePhotoSrc = this.profileService.getProfilePhotos()[index].src
-    this.profileService.setProfilePhoto(index)
-    this.changePhotoModal = false
+    let profilePhoto = this.profileService.getProfilePhotos()[index]
+    this.profilePhotoSrc = profilePhoto.src
+    console.log(profilePhoto)
+    if (profilePhoto.bought) {
+      this.profileService.setProfilePhoto(index)
+      this.changePhotoModal = false
+    }
+
 
   }
   openModalChangeName() {
@@ -99,6 +135,9 @@ export class ProfileComponent implements OnInit {
     this.profileService.setName(this.newName)
     this.changeNameModal = false
     this.name = this.newName
+  }
+  getMaxStartingBalance() {
+    return this.profileService.getMaxStartingBalance()
   }
 
   resetGame() {

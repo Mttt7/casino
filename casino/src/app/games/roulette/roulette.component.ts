@@ -85,7 +85,7 @@ export class RouletteComponent implements OnInit {
           this.displayScreenTimeout('win')
 
         } else {
-          this.displayScreenTimeout('win')
+          this.displayScreenTimeout('lose')
 
         }
       }
@@ -109,7 +109,7 @@ export class RouletteComponent implements OnInit {
       this.chosenBet = ''
     }
 
-
+    this.profileService.updateMultipler()
   }
 
   displayScreenTimeout(outcome: string) {
@@ -128,7 +128,7 @@ export class RouletteComponent implements OnInit {
   }
 
   getWinningAmount() {
-    return numeral(this.stake * this.multipler).format('0a')
+    return this.formatNumber(this.stake * this.multipler)
   }
 
 
@@ -144,16 +144,25 @@ export class RouletteComponent implements OnInit {
   }
   roundWon(amount: number) {
 
+    if (this.multipler > 5 && this.stake > this.profileService.getStartingBalance()) {
+      this.profileService.missions[2].currentProgress++
+    }
+
     this.changeBalance(amount)
-    this.displayOnScreen(`You won $${numeral(amount).format('0a')}`)
+    this.displayOnScreen(`You won $${this.formatNumber(amount)}`)
     this.spinning = false
     this.profileService.gameWon('roulette', amount)
     this.profileService.moneySpend('roulette', this.stake)
   }
 
+  formatNumber(number: number) {
+    return numeral(number).format('0[.][000]a').toUpperCase()
+
+  }
+
   roundLose(amount: number) {
 
-    this.displayOnScreen(`You lost $${numeral(this.stake).format('0a')}`)
+    this.displayOnScreen(`You lost $${this.formatNumber(this.stake)}`)
     this.spinning = false
     this.profileService.moneySpend('roulette', this.stake)
   }
@@ -270,10 +279,10 @@ export class RouletteComponent implements OnInit {
       return 7
     }
     else if (type === 'odd') {
-      return 0.49
+      return 2
     }
     else if (type === 'even') {
-      return 0.49
+      return 2
     }
     else if (type === 'specific-number') {
       return 7

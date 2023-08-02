@@ -6,7 +6,10 @@ import * as numeral from 'numeral';
 export class ProfileService {
 
 
-
+  points = 0
+  currentMultipler = 1
+  multiplerAfterReset = 1
+  maxStartingBalance = 5000
 
   name: string = 'John'
   startingBalance: number = 0
@@ -24,39 +27,120 @@ export class ProfileService {
     blackjack: 0
   }
   profilePhotos = [
-    { src: 'assets/images/profilePhotos/Thomas.png', name: 'Thomas' },
-    { src: 'assets/images/profilePhotos/Carmen.png', name: 'Carmen' },
-    { src: 'assets/images/profilePhotos/Hugo.png', name: 'Hugo' },
-    { src: 'assets/images/profilePhotos/Judy.png', name: 'Judy' },
-    { src: 'assets/images/profilePhotos/Julie.png', name: 'Julie' },
-    { src: 'assets/images/profilePhotos/Michael.png', name: 'Michael' },
-    { src: 'assets/images/profilePhotos/Pablo.png', name: 'Pablo' },
-    { src: 'assets/images/profilePhotos/Paul.png', name: 'Paul' },
-    { src: 'assets/images/profilePhotos/Philips.png', name: 'Philips' },
+    { src: 'assets/images/profilePhotos/Thomas.png', name: 'Thomas', price: 0, bought: true },
+    { src: 'assets/images/profilePhotos/Carmen.png', name: 'Carmen', price: 0, bought: true },
+    { src: 'assets/images/profilePhotos/Hugo.png', name: 'Hugo', price: 100, bought: false },
+    { src: 'assets/images/profilePhotos/Philips.png', name: 'Philips', price: 250, bought: false },
+    { src: 'assets/images/profilePhotos/Michael.png', name: 'Michael', price: 300, bought: false },
+    { src: 'assets/images/profilePhotos/Julie.png', name: 'Julie', price: 350, bought: false },
+    { src: 'assets/images/profilePhotos/Judy.png', name: 'Judy', price: 400, bought: false },
+    { src: 'assets/images/profilePhotos/Pablo.png', name: 'Pablo', price: 500, bought: false },
+    { src: 'assets/images/profilePhotos/Paul.png', name: 'Paul', price: 1000, bought: false }
 
   ]
   selectedProfilePhotoIndex = 0
 
+  missions = [
+    { name: 'Play 50 games', reward: 0.05, completed: false },
+    { name: 'Double staring balance', reward: 0.5, completed: false },
+    { name: '3 times >5', reward: 0.9, completed: false, currentProgress: 0 },
+    { name: 'x10 starting balance', reward: 1, completed: false },
+    { name: 'Make 10K', reward: 0.1, completed: false },
+    { name: 'Make 50K', reward: 0.5, completed: false },
+    { name: 'Make 100K', reward: 0.7, completed: false },
+    { name: 'Make 500K', reward: 0.8, completed: false },
+    { name: 'Make 1M', reward: 1, completed: false },
+    { name: 'Make 5M', reward: 1, completed: false },
+    { name: 'Make 10M', reward: 1, completed: false },
+  ]
 
+  shopItems = [
 
-  saveData() {
-    localStorage.setItem('name', JSON.stringify(this.name));
-    localStorage.setItem('startingBalance', JSON.stringify(this.startingBalance));
-    localStorage.setItem('balance', JSON.stringify(this.balance));
-    localStorage.setItem('gamesPlayed', JSON.stringify(this.gamesPlayed));
-    localStorage.setItem('moneySpentOnGames', JSON.stringify(this.moneySpentOnGames));
-    localStorage.setItem('moneyWonOnGames', JSON.stringify(this.moneyWonOnGames));
-    localStorage.setItem('selectedProfilePhotoIndex', JSON.stringify(this.selectedProfilePhotoIndex));
+  ]
+
+  getMaxStartingBalance() {
+    return this.maxStartingBalance
   }
-  getData() {
-    this.name = JSON.parse(localStorage.getItem('name')) || 'John';
-    this.startingBalance = JSON.parse(localStorage.getItem('startingBalance')) || 0;
-    this.balance = JSON.parse(localStorage.getItem('balance')) || 0;
-    this.gamesPlayed = JSON.parse(localStorage.getItem('gamesPlayed')) || { roulette: 0, blackjack: 0 };
-    this.moneySpentOnGames = JSON.parse(localStorage.getItem('moneySpentOnGames')) || { roulette: 0, blackjack: 0 };
-    this.moneyWonOnGames = JSON.parse(localStorage.getItem('moneyWonOnGames')) || { roulette: 0, blackjack: 0 };
-    this.selectedProfilePhotoIndex = JSON.parse(localStorage.getItem('selectedProfilePhotoIndex')) || 0;
+  updatePoints() {
+    this.points = ((this.getMoneyWon('all') / this.startingBalance) * this.currentMultipler) + (this.getGamesPlayed('all') * 10)
+    return this.points
+  }
+  updateMultipler() {
 
+    if (this.getGamesPlayed('all') >= 50 && !this.missions[0].completed) {
+      this.multiplerAfterReset = this.multiplerAfterReset + this.missions[0].reward
+      this.missions[0].completed = true
+    }
+
+    if (this.balance >= this.startingBalance * 2 && !this.missions[1].completed && this.missions[0].completed) {
+      this.multiplerAfterReset = this.multiplerAfterReset + this.missions[1].reward
+      this.missions[1].completed = true
+    }
+    if (this.missions[2].currentProgress >= 3 && !this.missions[2].completed && this.missions[1].completed && this.missions[0].completed) {
+      this.multiplerAfterReset = this.multiplerAfterReset + this.missions[2].reward
+      this.missions[2].completed = true
+    }
+    if (this.balance >= this.startingBalance * 10 && !this.missions[3].completed && this.missions[2].completed && this.missions[1].completed && this.missions[0].completed) {
+      this.multiplerAfterReset = this.multiplerAfterReset + this.missions[3].reward
+      this.missions[3].completed = true
+    }
+    if (this.balance >= 10000 && !this.missions[4].completed) {
+      this.multiplerAfterReset = this.multiplerAfterReset + this.missions[4].reward
+      this.missions[4].completed = true
+    }
+    if (this.balance >= 50000 && !this.missions[5].completed) {
+      this.multiplerAfterReset = this.multiplerAfterReset + this.missions[5].reward
+      this.missions[5].completed = true
+    }
+    if (this.balance >= 100000 && !this.missions[6].completed) {
+      this.multiplerAfterReset = this.multiplerAfterReset + this.missions[6].reward
+      this.missions[6].completed = true
+    }
+    if (this.balance >= 500000 && !this.missions[7].completed) {
+      this.multiplerAfterReset = this.multiplerAfterReset + this.missions[7].reward
+      this.missions[7].completed = true
+    }
+    if (this.balance >= 1000000 && !this.missions[8].completed) {
+      this.multiplerAfterReset = this.multiplerAfterReset + this.missions[8].reward
+      this.missions[8].completed = true
+    }
+    if (this.balance >= 5000000 && !this.missions[9].completed) {
+      this.multiplerAfterReset = this.multiplerAfterReset + this.missions[9].reward
+      this.missions[9].completed = true
+    }
+    if (this.balance >= 10000000 && !this.missions[10].completed) {
+      this.multiplerAfterReset = this.multiplerAfterReset + this.missions[10].reward
+      this.missions[10].completed = true
+    }
+  }
+
+
+  // saveData() {
+  //   localStorage.setItem('name', JSON.stringify(this.name));
+  //   localStorage.setItem('startingBalance', JSON.stringify(this.startingBalance));
+  //   localStorage.setItem('balance', JSON.stringify(this.balance));
+  //   localStorage.setItem('gamesPlayed', JSON.stringify(this.gamesPlayed));
+  //   localStorage.setItem('moneySpentOnGames', JSON.stringify(this.moneySpentOnGames));
+  //   localStorage.setItem('moneyWonOnGames', JSON.stringify(this.moneyWonOnGames));
+  //   localStorage.setItem('selectedProfilePhotoIndex', JSON.stringify(this.selectedProfilePhotoIndex));
+
+  // }
+  // getData() {
+  //   this.name = JSON.parse(localStorage.getItem('name')) || 'John';
+  //   this.startingBalance = JSON.parse(localStorage.getItem('startingBalance')) || 0;
+  //   this.balance = JSON.parse(localStorage.getItem('balance')) || 0;
+  //   this.gamesPlayed = JSON.parse(localStorage.getItem('gamesPlayed')) || { roulette: 0, blackjack: 0 };
+  //   this.moneySpentOnGames = JSON.parse(localStorage.getItem('moneySpentOnGames')) || { roulette: 0, blackjack: 0 };
+  //   this.moneyWonOnGames = JSON.parse(localStorage.getItem('moneyWonOnGames')) || { roulette: 0, blackjack: 0 };
+  //   this.selectedProfilePhotoIndex = JSON.parse(localStorage.getItem('selectedProfilePhotoIndex')) || 0;
+
+  // }
+  saveData() {
+    localStorage.setItem('profileService', JSON.stringify(this));
+  }
+
+  getData() {
+    Object.assign(this, JSON.parse(localStorage.getItem('profileService')));
   }
 
 
@@ -123,7 +207,7 @@ export class ProfileService {
   }
 
   setStartingBalance(startingBalance: number) {
-    if (startingBalance > 0 && startingBalance <= 20000) {
+    if (startingBalance > 0 && startingBalance <= 2000000000000) {
       this.startingBalance = startingBalance
       this.balance = startingBalance
       this.saveData()
@@ -223,6 +307,9 @@ export class ProfileService {
       roulette: 0,
       blackjack: 0
     }
+
+    this.currentMultipler = this.multiplerAfterReset
+
     this.saveData()
     this.getData()
 
@@ -230,7 +317,7 @@ export class ProfileService {
 
 
   constructor() {
-    this.getData()
+    //this.getData()
   }
 
 }

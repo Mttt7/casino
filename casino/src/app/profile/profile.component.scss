@@ -9,10 +9,54 @@
     font-family: 'Kanit', sans-serif;
 }
 
-.container,
-.container-new-user {
-    width: 800px;
+.shop {
 
+
+    .exit-button {
+        user-select: none;
+        background-color: red;
+        width: 60px;
+        padding: .5rem 1rem;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 10px 10px 5px rgba(0, 0, 0, 0.322);
+    }
+
+    .exit-button:hover {
+        cursor: pointer;
+        transform: scale(1.06);
+    }
+}
+
+.profile-photo-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.locked {
+    opacity: 0.35;
+}
+
+
+
+.price {
+    color: gold;
+    position: absolute;
+    font-size: 3rem;
+    z-index: 100;
+}
+
+
+
+.container,
+.container-new-user,
+.shop {
+    width: 800px;
+    height: 520px;
     gap: 4rem;
     background-color: rgba(29, 29, 29, 0.911);
     box-shadow: 10px 10px 5px rgba(0, 0, 0, 0.322);
@@ -25,6 +69,76 @@
     border-radius: 20px;
     padding: 3rem;
 
+}
+
+.formula {
+    width: 400px;
+}
+
+.points-wrapper {
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+
+    .points {
+        font-size: 2.3rem;
+        color: gold;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 1rem;
+    }
+
+    .current-multipler {
+        font-size: 1.6rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 1rem;
+    }
+
+    .info-button {
+        font-size: 1.6rem;
+
+        background-color: white;
+        color: black;
+        width: 28px;
+        height: 28px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 10px;
+    }
+
+    .info-button:hover {
+        cursor: pointer;
+        transform: scale(1.08);
+    }
+
+    .info {
+        width: 1000px;
+        height: 600px;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 1000;
+        padding: 2rem;
+        background-color: rgba(29, 29, 29, 0.911);
+        box-shadow: 10px 10px 5px rgba(0, 0, 0, 0.322);
+        border-radius: 8px;
+        /* Dodaj to, jeśli chcesz cień dookoła modala */
+        box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.25);
+        /* Jeśli chcesz, aby cała reszta była przyciemniona */
+        backdrop-filter: blur(4px);
+
+        img {
+            width: 100%;
+            height: 100%;
+        }
+    }
 }
 
 
@@ -57,6 +171,18 @@
     background-repeat: no-repeat;
 }
 
+.profile-photo-to-choose {
+    width: 250px;
+    height: 250px;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.profile-photo-to-choose:not(.locked):hover {
+    cursor: pointer;
+    transform: scale(1.08);
+}
+
 .change-profile-photo {
     display: none;
     position: absolute;
@@ -65,9 +191,7 @@
     width: 100%;
     height: 100%;
     background: rgba(0, 0, 0, 0.459);
-    /* półprzezroczyste tło */
     color: #fff;
-    /* biały tekst i ikona */
     justify-content: center;
     align-items: center;
     text-align: center;
@@ -103,8 +227,31 @@
     }
 
 
+
     .games-played {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        align-items: center;
         font-size: 1.4rem;
+
+        .bottom {
+            display: flex;
+            gap: .5rem;
+        }
+
+    }
+}
+
+
+.games-money-won {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    font-size: 1.6rem;
+
+    * {
+        width: 180px;
     }
 }
 
@@ -161,7 +308,7 @@
     gap: 1rem;
 
 
-    .take-photo-btn {
+    .open-shop-btn {
         display: flex;
         align-items: center;
         justify-content: center;
@@ -177,7 +324,7 @@
 
     }
 
-    .take-photo-btn:hover {
+    .open-shop-btn:hover {
         cursor: pointer;
         transform: scale(1.08);
     }
