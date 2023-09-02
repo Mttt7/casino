@@ -50,11 +50,8 @@
     z-index: 100;
 }
 
-
-
 .container,
-.container-new-user,
-.shop {
+.container-new-user {
     width: 800px;
     height: 520px;
     gap: 4rem;
@@ -70,6 +67,76 @@
     padding: 3rem;
 
 }
+
+//SHOP---------------------------
+// <div class="shop" *ngIf="shopOpened">
+// <div class="exit-button" (click)="toogleShopOpened()">EXIT</div>
+// <div class="shop-item" *ngFor="let shopItem of shopItems">
+//     <div class="type">{{shopItem.type}}</div>
+//     <div class="name">{{shopItem.name}}</div>
+//     <div class="price">{{shopItem.price}}</div>
+//     <div class="buy-button" (click)="buyItem(shopItem)" *ngIf="!shopItem.bought">BUY</div>
+// </div>
+// </div>
+
+.shop::-webkit-scrollbar {
+    display: none;
+}
+
+.shop {
+    width: 800px;
+    height: 520px;
+
+    background-color: rgba(29, 29, 29, 0.911);
+    box-shadow: 10px 10px 5px rgba(0, 0, 0, 0.322);
+    color: white;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 20px;
+    padding: 3rem;
+    gap: 1rem;
+
+    padding: 3rem;
+
+    overflow-y: auto;
+    scrollbar-width: none;
+
+
+    .shop-item {
+        background-color: rgb(208, 227, 233);
+        color: black;
+        border-radius: 10px;
+        padding: 1rem;
+
+        height: 100px;
+        width: 500px;
+        display: flex;
+        gap: 2rem;
+
+        font-size: 1.4rem;
+
+
+        .shop-item-price {
+            font-size: 1.5rem;
+            margin-left: auto;
+        }
+
+        .buy-button {}
+
+        .buy-button:hover {
+            cursor: pointer;
+            transform: scale(1.08);
+        }
+    }
+}
+
+
+
+
 
 .formula {
     width: 400px;

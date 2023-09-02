@@ -23,6 +23,8 @@ export class ProfileComponent implements OnInit {
   infoClicked = false
   shopOpened = false
 
+  shopItems = []
+
   photos: any = []
 
   newStartingBalance = 0
@@ -39,6 +41,10 @@ export class ProfileComponent implements OnInit {
     this.profilePhotoSrc = this.profileService.getProfilePhoto().src
     this.name = this.profileService.getName()
     this.photos = this.profileService.getProfilePhotos()
+    this.shopItems = this.profileService.getShopItems()
+
+  }
+  buyItem(shopItem) {
 
   }
 
@@ -48,6 +54,8 @@ export class ProfileComponent implements OnInit {
     }
     return `P${this.photos[i].price}`
   }
+
+
   isPhotoLocked(index: number) {
 
     let profilePhoto = this.profileService.getProfilePhotos()[index]
@@ -57,10 +65,10 @@ export class ProfileComponent implements OnInit {
     this.shopOpened = !this.shopOpened
   }
   getCurrentMutipler() {
-    return this.profileService.currentMultipler
+    return Math.floor(this.profileService.currentMultipler * 100) / 100
   }
   getMultiplerAfterReset() {
-    return this.profileService.multiplerAfterReset
+    return Math.floor(this.profileService.multiplerAfterReset * 100) / 100
   }
   updatePoints() {
     return this.profileService.updatePoints()

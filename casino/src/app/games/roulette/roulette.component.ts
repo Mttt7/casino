@@ -75,10 +75,8 @@ export class RouletteComponent implements OnInit {
       this.currentRotation = `${toRotate}deg`
 
 
-      // console.log('chosen bet' + this.chosenBet)
-      // console.log('this.cells[number].type' + this.cells[number].type.includes('blue'))
+
       if (number === 8) {
-        console.log('JEST ZERPPP')
         if (this.chosenBet === 'specific-number' && this.specificNumber === 0
           || this.chosenBet == 'green') {
 

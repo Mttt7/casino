@@ -55,9 +55,31 @@ export class ProfileService {
   ]
 
   shopItems = [
+    { type: 'Profile Photo', name: 'Hugo', price: 100, bought: false },
+    { type: 'Profile Photo', name: 'Philips', price: 250, bought: false },
+    { type: 'Profile Photo', name: 'Michael', price: 300, bought: false },
+    { type: 'Profile Photo', name: 'Julie', price: 350, bought: false },
+    { type: 'Profile Photo', name: 'Judy', price: 400, bought: false },
+    { type: 'Profile Photo', name: 'Pablo', price: 500, bought: false },
+    { type: 'Profile Photo', name: 'Paul', price: 1000, bought: false },
+
+    { type: 'Multipler', name: '+0.1', price: 500, bought: false },
+    { type: 'Multipler', name: '+0.2', price: 700, bought: false },
+    { type: 'Multipler', name: '+0.3', price: 1000, bought: false },
+    { type: 'Multipler', name: '+0.5', price: 1200, bought: false },
+
+    { type: 'Money', name: '10K', price: 250, bought: false },
+    { type: 'Money', name: '100K', price: 2000, bought: false },
+    { type: 'Money', name: '1M', price: 18500, bought: false },
+
+
+    { type: 'Game', name: 'Crazy Run', price: 500, bought: false },
 
   ]
 
+  getShopItems() {
+    return this.shopItems
+  }
   getMaxStartingBalance() {
     return this.maxStartingBalance
   }
@@ -161,6 +183,7 @@ export class ProfileService {
     else if (type === 'blackjack') {
       this.moneyWonOnGames.blackjack += winningAmount
     }
+    this.updateMultipler()
     this.saveData()
   }
   moneySpend(type: string, lostAmount: number) {
@@ -289,6 +312,12 @@ export class ProfileService {
   }
 
 
+  // missions = [
+  //   { name: 'Play 50 games', reward: 0.05, completed: false },
+  //   { name: 'Do
+
+
+
 
   resetGame() {
     this.name = 'John'
@@ -309,6 +338,10 @@ export class ProfileService {
     }
 
     this.currentMultipler = this.multiplerAfterReset
+    this.missions.forEach(m => {
+      m.completed = false
+    })
+
 
     this.saveData()
     this.getData()
@@ -317,7 +350,8 @@ export class ProfileService {
 
 
   constructor() {
-    //this.getData()
+    //this.saveData()
+    this.getData()
   }
 
 }

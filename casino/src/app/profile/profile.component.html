@@ -13,6 +13,13 @@
         </div>
     </div>
     <div class="shop" *ngIf="shopOpened">
+
+        <div class="shop-item" *ngFor="let shopItem of shopItems">
+            <div class="type">{{shopItem.type}}</div>
+            <div class="name">{{shopItem.name}}</div>
+            <div class="shop-item-price">{{shopItem.price}}</div>
+            <div class="buy-button" (click)="buyItem(shopItem)" *ngIf="!shopItem.bought">BUY</div>
+        </div>
         <div class="exit-button" (click)="toogleShopOpened()">EXIT</div>
     </div>
 
@@ -96,7 +103,7 @@
                     Multipler after reset: x{{getMultiplerAfterReset()}}
                 </div>
                 <div class="formula">
-                    POINTS = (P/S) * M + 10*G-games<br>
+                    POINTS = (W/S) * M + 10*G<br>
                     W-money won<br>
                     S-starting balance<br>
                     M-current Multipler<br>
@@ -116,18 +123,7 @@
 
 
 
-    <!-- <div class="profile-photo" [ngStyle]="{'background-image': 'url(' + profilePhotoSrc + ')'}"
-                    (mouseover)="hover=true" (mouseout)="hover=false" (click)="openModalChangeProfilePhoto()">
-                    <div class="change-profile-photo" [ngClass]="{'show': hover}">
-                        <img src="./assets/images/gear.png">
-                        <p>change profile picture</p>
-                    </div>
-                </div> -->
 
-    <!-- <div class="change-profile-photo" [ngClass]="{'show': hover}">
-                    <img src="./assets/images/gear.png">
-                    <p>change profile picture</p>
-                </div> -->
 
 
     <div class="change-profile-photo-modal" *ngIf="changePhotoModal">
