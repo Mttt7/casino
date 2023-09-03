@@ -1,6 +1,0 @@
-{
-  "dependencies": {
-    "gsap": "^3.12.2",
-    "numeral": "^2.0.6"
-  }
-}
