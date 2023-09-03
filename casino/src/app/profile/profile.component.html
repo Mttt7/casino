@@ -14,12 +14,15 @@
     </div>
     <div class="shop" *ngIf="shopOpened">
 
-        <div class="shop-item" *ngFor="let shopItem of shopItems">
-            <div class="type">{{shopItem.type}}</div>
-            <div class="name">{{shopItem.name}}</div>
-            <div class="shop-item-price">{{shopItem.price}}</div>
-            <div class="buy-button" (click)="buyItem(shopItem)" *ngIf="!shopItem.bought">BUY</div>
+        <div class="shop-items">
+            <div class="shop-item" *ngFor="let shopItem of shopItems">
+                <div class="type">{{shopItem.type}}</div>
+                <div class="name">{{shopItem.name}}</div>
+                <div class="shop-item-price">{{shopItem.price}}</div>
+                <div class="buy-button" (click)="buyItem(shopItem)" *ngIf="!shopItem.bought">UNLOCK</div>
+            </div>
         </div>
+
         <div class="exit-button" (click)="toogleShopOpened()">EXIT</div>
     </div>
 
@@ -136,7 +139,7 @@
                         [ngClass]="{'locked': isPhotoLocked(i)}">
                     </div>
                     <div class="price">
-                        {{getPriceOfPhoto(i)}}
+                        {{(getLocked(i))}}
                     </div>
                 </div>
 

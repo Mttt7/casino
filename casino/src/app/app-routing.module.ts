@@ -13,7 +13,7 @@ const routes: Routes = [
   {
     path: 'games', component: GamesComponent, children: [
       { path: 'roulette', component: RouletteComponent },
-      { path: 'blackjack', component: BlackjackComponent }
+      { path: 'crazy-run', component: BlackjackComponent }
     ]
   },
   { path: 'profile', component: ProfileComponent },

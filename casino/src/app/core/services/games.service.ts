@@ -6,8 +6,8 @@ import { Injectable } from '@angular/core';
 export class GamesService {
 
   games = [
-    { name: 'Roulette', description: 'roulette game you can win or lose hhhhhhh its easy an fun ', stakes: '1-5000', image: 'assets/images/roulette.png', route: 'roulette' },
-    { name: 'Blackjack', description: 'blackjack game you can win or lose hhhhhhh its easy an fun', stakes: '1-5000', image: 'assets/images/blackjack.png', route: 'blackjack' },
+    { name: 'Roulette', description: 'Classic roulette game. Try your luck!', stakes: '1-no limit', image: 'assets/images/roulette.png', route: 'roulette' },
+    { name: 'Crazy Run', description: 'Coming soon...', stakes: '1-5000', image: 'assets/images/blackjack.png', route: 'crazy-run' },
   ]
 
 

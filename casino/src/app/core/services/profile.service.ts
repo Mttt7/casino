@@ -16,15 +16,15 @@ export class ProfileService {
   balance: number = 50000
   gamesPlayed = {
     roulette: 0,
-    blackjack: 0
+    crazyRun: 0
   }
   moneySpentOnGames = {
     roulette: 0,
-    blackjack: 0
+    crazyRun: 0
   }
   moneyWonOnGames = {
     roulette: 0,
-    blackjack: 0
+    crazyRun: 0
   }
   profilePhotos = [
     { src: 'assets/images/profilePhotos/Thomas.png', name: 'Thomas', price: 0, bought: true },
@@ -55,27 +55,144 @@ export class ProfileService {
   ]
 
   shopItems = [
-    { type: 'Profile Photo', name: 'Hugo', price: 100, bought: false },
-    { type: 'Profile Photo', name: 'Philips', price: 250, bought: false },
-    { type: 'Profile Photo', name: 'Michael', price: 300, bought: false },
-    { type: 'Profile Photo', name: 'Julie', price: 350, bought: false },
-    { type: 'Profile Photo', name: 'Judy', price: 400, bought: false },
-    { type: 'Profile Photo', name: 'Pablo', price: 500, bought: false },
-    { type: 'Profile Photo', name: 'Paul', price: 1000, bought: false },
-
-    { type: 'Multipler', name: '+0.1', price: 500, bought: false },
-    { type: 'Multipler', name: '+0.2', price: 700, bought: false },
-    { type: 'Multipler', name: '+0.3', price: 1000, bought: false },
-    { type: 'Multipler', name: '+0.5', price: 1200, bought: false },
-
-    { type: 'Money', name: '10K', price: 250, bought: false },
-    { type: 'Money', name: '100K', price: 2000, bought: false },
-    { type: 'Money', name: '1M', price: 18500, bought: false },
-
-
-    { type: 'Game', name: 'Crazy Run', price: 500, bought: false },
-
-  ]
+    {
+      type: 'Profile Photo',
+      name: 'Hugo',
+      price: 50,
+      bought: false,
+      action: () => {
+        this.profilePhotos[2].bought = true;
+      },
+    },
+    {
+      type: 'Profile Photo',
+      name: 'Philips',
+      price: 100,
+      bought: false,
+      action: () => {
+        this.profilePhotos[3].bought = true;
+      },
+    },
+    {
+      type: 'Profile Photo',
+      name: 'Michael',
+      price: 200,
+      bought: false,
+      action: () => {
+        this.profilePhotos[4].bought = true;
+      },
+    },
+    {
+      type: 'Profile Photo',
+      name: 'Julie',
+      price: 250,
+      bought: false,
+      action: () => {
+        this.profilePhotos[5].bought = true;
+      },
+    },
+    {
+      type: 'Profile Photo',
+      name: 'Judy',
+      price: 300,
+      bought: false,
+      action: () => {
+        this.profilePhotos[6].bought = true;
+      },
+    },
+    {
+      type: 'Profile Photo',
+      name: 'Pablo',
+      price: 500,
+      bought: false,
+      action: () => {
+        this.profilePhotos[7].bought = true;
+      },
+    },
+    {
+      type: 'Profile Photo',
+      name: 'Paul',
+      price: 1200,
+      bought: false,
+      action: () => {
+        this.profilePhotos[8].bought = true;
+      },
+    },
+    {
+      type: 'Multipler',
+      name: '+0.1',
+      price: 90,
+      bought: false,
+      action: () => {
+        this.currentMultipler += 0.1;
+        this.multiplerAfterReset += 0.1;
+      },
+    },
+    {
+      type: 'Multipler',
+      name: '+0.2',
+      price: 100,
+      bought: false,
+      action: () => {
+        this.currentMultipler += 0.2;
+        this.multiplerAfterReset += 0.2;
+      },
+    },
+    {
+      type: 'Multipler',
+      name: '+0.3',
+      price: 300,
+      bought: false,
+      action: () => {
+        this.currentMultipler += 0.3;
+        this.multiplerAfterReset += 0.3;
+      },
+    },
+    {
+      type: 'Multipler',
+      name: '+0.5',
+      price: 500,
+      bought: false,
+      action: () => {
+        this.currentMultipler += 0.5;
+        this.multiplerAfterReset += 0.5;
+      },
+    },
+    {
+      type: 'Money',
+      name: '10K',
+      price: 50,
+      bought: false,
+      action: () => {
+        this.balance += 10000;
+      },
+    },
+    {
+      type: 'Money',
+      name: '100K',
+      price: 2000,
+      bought: false,
+      action: () => {
+        this.balance += 100000;
+      },
+    },
+    {
+      type: 'Money',
+      name: '1M',
+      price: 18500,
+      bought: false,
+      action: () => {
+        this.balance += 1000000;
+      },
+    },
+    {
+      type: 'Game',
+      name: 'Crazy Run',
+      price: 200,
+      bought: false,
+      action: () => { },
+    },
+  ];
 
   getShopItems() {
     return this.shopItems
@@ -84,7 +201,7 @@ export class ProfileService {
     return this.maxStartingBalance
   }
   updatePoints() {
-    this.points = ((this.getMoneyWon('all') / this.startingBalance) * this.currentMultipler) + (this.getGamesPlayed('all') * 10)
+    this.points = Math.floor(((this.getMoneyWon('all') / this.startingBalance) * this.currentMultipler) + (this.getGamesPlayed('all') * 10))
     return this.points
   }
   updateMultipler() {
@@ -162,17 +279,29 @@ export class ProfileService {
   }
 
   getData() {
-    Object.assign(this, JSON.parse(localStorage.getItem('profileService')));
+    if (localStorage.getItem('profileService') !== null) {
+      Object.assign(this, JSON.parse(localStorage.getItem('profileService')));
+    }
+
   }
 
 
+
+  buyItem(shopItem) {
+    console.log(shopItem)
+    if (this.updatePoints() >= shopItem.price) {
+      shopItem.bought = true
+      shopItem.action()
+    }
+
+  }
 
   newGame(type: string) {
     if (type === 'roulette') {
       this.gamesPlayed.roulette++
     }
-    else if (type === 'blackjack') {
-      this.gamesPlayed.blackjack++
+    else if (type === 'crazyRun') {
+      this.gamesPlayed.crazyRun++
     }
     this.saveData()
   }
@@ -180,8 +309,8 @@ export class ProfileService {
     if (type === 'roulette') {
       this.moneyWonOnGames.roulette += winningAmount
     }
-    else if (type === 'blackjack') {
-      this.moneyWonOnGames.blackjack += winningAmount
+    else if (type === 'crazyRun') {
+      this.moneyWonOnGames.crazyRun += winningAmount
     }
     this.updateMultipler()
     this.saveData()
@@ -190,8 +319,8 @@ export class ProfileService {
     if (type === 'roulette') {
       this.moneySpentOnGames.roulette += lostAmount
     }
-    else if (type === 'blackjack') {
-      this.moneySpentOnGames.blackjack += lostAmount
+    else if (type === 'crazyRun') {
+      this.moneySpentOnGames.crazyRun += lostAmount
     }
     this.saveData()
   }
@@ -245,14 +374,14 @@ export class ProfileService {
   getGamesPlayed(game: string) {
     if (game === 'all') {
       let overallGamesPlayed = 0
-      overallGamesPlayed = this.gamesPlayed.roulette + this.gamesPlayed.blackjack
+      overallGamesPlayed = this.gamesPlayed.roulette + this.gamesPlayed.crazyRun
       return overallGamesPlayed
     }
     else if (game === 'roulette') {
       return this.gamesPlayed.roulette
     }
-    else if (game === 'blackjack') {
-      return this.gamesPlayed.blackjack
+    else if (game === 'crazyRun') {
+      return this.gamesPlayed.crazyRun
     }
     else {
       return 0
@@ -263,14 +392,14 @@ export class ProfileService {
   getMoneyWon(game: string) {
     if (game === 'all') {
       let overallMoneyWon = 0
-      overallMoneyWon = this.moneyWonOnGames.roulette + this.moneyWonOnGames.blackjack
+      overallMoneyWon = this.moneyWonOnGames.roulette + this.moneyWonOnGames.crazyRun
       return overallMoneyWon
     }
     else if (game === 'roulette') {
       return this.moneyWonOnGames.roulette
     }
-    else if (game === 'blackjack') {
-      return this.moneyWonOnGames.blackjack
+    else if (game === 'crazyRun') {
+      return this.moneyWonOnGames.crazyRun
     }
     else {
       return 0
@@ -280,14 +409,14 @@ export class ProfileService {
   getMoneySpent(game: string) {
     if (game === 'all') {
       let overallMoneySpent = 0
-      overallMoneySpent = this.moneySpentOnGames.roulette + this.moneySpentOnGames.blackjack
+      overallMoneySpent = this.moneySpentOnGames.roulette + this.moneySpentOnGames.crazyRun
       return overallMoneySpent
     }
     else if (game === 'roulette') {
       return this.moneySpentOnGames.roulette
     }
-    else if (game === 'blackjack') {
-      return this.moneySpentOnGames.blackjack
+    else if (game === 'crazyRun') {
+      return this.moneySpentOnGames.crazyRun
     }
     else {
       return 0
@@ -297,14 +426,14 @@ export class ProfileService {
   getProfit(game: string) {
     if (game === 'all') {
       let overallProfit = 0
-      overallProfit = this.moneyWonOnGames.roulette + this.moneyWonOnGames.blackjack - this.moneySpentOnGames.roulette - this.moneySpentOnGames.blackjack
+      overallProfit = this.moneyWonOnGames.roulette + this.moneyWonOnGames.crazyRun - this.moneySpentOnGames.roulette - this.moneySpentOnGames.crazyRun
       return overallProfit
     }
     else if (game === 'roulette') {
       return this.moneyWonOnGames.roulette - this.moneySpentOnGames.roulette
     }
-    else if (game === 'blackjack') {
-      return this.moneyWonOnGames.blackjack - this.moneySpentOnGames.blackjack
+    else if (game === 'crazyRun') {
+      return this.moneyWonOnGames.crazyRun - this.moneySpentOnGames.crazyRun
     }
     else {
       return 0
@@ -326,15 +455,15 @@ export class ProfileService {
     this.startingBalance = 0
     this.gamesPlayed = {
       roulette: 0,
-      blackjack: 0
+      crazyRun: 0
     }
     this.moneySpentOnGames = {
       roulette: 0,
-      blackjack: 0
+      crazyRun: 0
     }
     this.moneyWonOnGames = {
       roulette: 0,
-      blackjack: 0
+      crazyRun: 0
     }
 
     this.currentMultipler = this.multiplerAfterReset

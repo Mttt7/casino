@@ -79,13 +79,13 @@
 // </div>
 // </div>
 
-.shop::-webkit-scrollbar {
+.shop-items::-webkit-scrollbar {
     display: none;
 }
 
 .shop {
     width: 800px;
-    height: 520px;
+    height: 620px;
 
     background-color: rgba(29, 29, 29, 0.911);
     box-shadow: 10px 10px 5px rgba(0, 0, 0, 0.322);
@@ -105,33 +105,43 @@
     overflow-y: auto;
     scrollbar-width: none;
 
-
-    .shop-item {
-        background-color: rgb(208, 227, 233);
-        color: black;
-        border-radius: 10px;
-        padding: 1rem;
-
-        height: 100px;
-        width: 500px;
+    .shop-items {
         display: flex;
-        gap: 2rem;
+        flex-direction: column;
+        gap: 1rem;
+        overflow-y: auto;
 
-        font-size: 1.4rem;
+        .shop-item {
+            background-color: rgb(208, 227, 233);
+            color: black;
+            border-radius: 10px;
+            padding: 1rem;
+
+            height: 10px;
+            width: 500px;
+            display: flex;
+            gap: 2rem;
+
+            font-size: 1.4rem;
 
 
-        .shop-item-price {
-            font-size: 1.5rem;
-            margin-left: auto;
+            .shop-item-price {
+                font-size: 1.5rem;
+                margin-left: auto;
+            }
+
+            .buy-button {}
+
+            .buy-button:hover {
+                cursor: pointer;
+                transform: scale(1.08);
+            }
         }
 
-        .buy-button {}
-
-        .buy-button:hover {
-            cursor: pointer;
-            transform: scale(1.08);
-        }
     }
+
+
+
 }
 
 

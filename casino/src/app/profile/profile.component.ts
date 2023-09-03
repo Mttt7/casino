@@ -45,19 +45,20 @@ export class ProfileComponent implements OnInit {
 
   }
   buyItem(shopItem) {
+    console.log(shopItem)
+    this.profileService.buyItem(shopItem)
 
   }
 
-  getPriceOfPhoto(i) {
+  getLocked(i) {
     if (this.photos[i].price === 0 || this.photos[i].bought) {
       return ''
     }
-    return `P${this.photos[i].price}`
+    return "locked"
   }
 
 
   isPhotoLocked(index: number) {
-
     let profilePhoto = this.profileService.getProfilePhotos()[index]
     return profilePhoto.bought ? false : true
   }

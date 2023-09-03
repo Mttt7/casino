@@ -22,13 +22,13 @@ export class GamesComponent implements OnInit {
   ngOnInit(): void {
     this.gameSelected = false
     this.games = this.gameService.getGames();
-    if (this.router.url.includes('roulette') || this.router.url.includes('blackjack')) {
+    if (this.router.url.includes('roulette') || this.router.url.includes('crazy-run')) {
       this.gameSelected = true
     }
 
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
-        if (event.urlAfterRedirects.includes('roulette') || event.urlAfterRedirects.includes('blackjack')) {
+        if (event.urlAfterRedirects.includes('roulette') || event.urlAfterRedirects.includes('crazy-run')) {
           this.gameSelected = true
         }
 
