@@ -54,145 +54,161 @@ export class ProfileService {
     { name: 'Make 10M', reward: 1, completed: false },
   ]
 
-  shopItems = [
+  shopItems = [ //JAKOS WYRZUCIC FUNCKJE Z ACTION()???
     {
       type: 'Profile Photo',
       name: 'Hugo',
       price: 50,
       bought: false,
-      action: () => {
-        this.profilePhotos[2].bought = true;
-      },
+      // action: () => {
+      //   this.profilePhotos[2].bought = true;
+      // },
+      action: { type: 'profilePhoto', index: 2 }
     },
     {
       type: 'Profile Photo',
       name: 'Philips',
       price: 100,
       bought: false,
-      action: () => {
-        this.profilePhotos[3].bought = true;
-      },
+      // action: () => {
+      //   this.profilePhotos[3].bought = true;
+      // },
+      action: { type: 'profilePhoto', index: 3 }
     },
     {
       type: 'Profile Photo',
       name: 'Michael',
       price: 200,
       bought: false,
-      action: () => {
-        this.profilePhotos[4].bought = true;
-      },
+      // action: () => {
+      //   this.profilePhotos[4].bought = true;
+      // },
+      action: { type: 'profilePhoto', index: 4 }
     },
     {
       type: 'Profile Photo',
       name: 'Julie',
       price: 250,
       bought: false,
-      action: () => {
-        this.profilePhotos[5].bought = true;
-      },
+      // action: () => {
+      //   this.profilePhotos[5].bought = true;
+      // },
+      action: { type: 'profilePhoto', index: 5 }
     },
     {
       type: 'Profile Photo',
       name: 'Judy',
       price: 300,
       bought: false,
-      action: () => {
-        this.profilePhotos[6].bought = true;
-      },
+      // action: () => {
+      //   this.profilePhotos[6].bought = true;
+      // },
+      action: { type: 'profilePhoto', index: 6 }
     },
     {
       type: 'Profile Photo',
       name: 'Pablo',
       price: 500,
       bought: false,
-      action: () => {
-        this.profilePhotos[7].bought = true;
-      },
+      // action: () => {
+      //   this.profilePhotos[7].bought = true;
+      // },
+      action: { type: 'profilePhoto', index: 7 }
     },
     {
       type: 'Profile Photo',
       name: 'Paul',
       price: 1200,
       bought: false,
-      action: () => {
-        this.profilePhotos[8].bought = true;
-      },
+      // action: () => {
+      //   this.profilePhotos[8].bought = true;
+      // },
+      action: { type: 'profilePhoto', index: 8 }
     },
     {
       type: 'Multipler',
       name: '+0.1',
-      price: 90,
+      price: 200,
       bought: false,
-      action: () => {
-        this.currentMultipler += 0.1;
-        this.multiplerAfterReset += 0.1;
-      },
+      // action: () => {
+      //   this.currentMultipler += 0.1;
+      //   this.multiplerAfterReset += 0.1;
+      // },
+      action: { type: 'multipler', value: 0.1 }
     },
     {
       type: 'Multipler',
       name: '+0.2',
-      price: 100,
+      price: 600,
       bought: false,
-      action: () => {
-        this.currentMultipler += 0.2;
-        this.multiplerAfterReset += 0.2;
-      },
+      // action: () => {
+      //   this.currentMultipler += 0.2;
+      //   this.multiplerAfterReset += 0.2;
+      // },
+      action: { type: 'multipler', value: 0.2 }
     },
     {
       type: 'Multipler',
       name: '+0.3',
-      price: 300,
+      price: 1000,
       bought: false,
-      action: () => {
-        this.currentMultipler += 0.3;
-        this.multiplerAfterReset += 0.3;
-      },
+      // action: () => {
+      //   this.currentMultipler += 0.3;
+      //   this.multiplerAfterReset += 0.3;
+      // },
+      action: { type: 'multipler', value: 0.3 }
     },
     {
       type: 'Multipler',
       name: '+0.5',
-      price: 500,
+      price: 3000,
       bought: false,
-      action: () => {
-        this.currentMultipler += 0.5;
-        this.multiplerAfterReset += 0.5;
-      },
+      // action: () => {
+      //   this.currentMultipler += 0.5;
+      //   this.multiplerAfterReset += 0.5;
+      // },
+      action: { type: 'multipler', value: 0.5 }
     },
     {
       type: 'Money',
       name: '10K',
-      price: 50,
+      price: 100,
       bought: false,
-      action: () => {
-        this.balance += 10000;
-      },
+      // action: () => {
+      //   this.balance += 10000;
+      // },
+      action: { type: 'money', value: 10000 }
     },
     {
       type: 'Money',
       name: '100K',
       price: 2000,
       bought: false,
-      action: () => {
-        this.balance += 100000;
-      },
+      // action: () => {
+      //   this.balance += 100000;
+      // },
+      action: { type: 'money', value: 100000 }
     },
     {
       type: 'Money',
       name: '1M',
       price: 18500,
       bought: false,
-      action: () => {
-        this.balance += 1000000;
-      },
+      // action: () => {
+      //   this.balance += 1000000;
+      // },
+      action: { type: 'money', value: 1000000 }
     },
     {
       type: 'Game',
       name: 'Crazy Run',
-      price: 200,
+      price: 500,
       bought: false,
-      action: () => { },
+      action: { type: 'game' }
     },
   ];
+
+
 
   getShopItems() {
     return this.shopItems
@@ -201,7 +217,7 @@ export class ProfileService {
     return this.maxStartingBalance
   }
   updatePoints() {
-    this.points = Math.floor(((this.getMoneyWon('all') / this.startingBalance) * this.currentMultipler) + (this.getGamesPlayed('all') * 10))
+    this.points = (Math.floor(((this.getMoneyWon('all') / this.startingBalance)) + (this.getGamesPlayed('all') * 10))) * this.currentMultipler
     return this.points
   }
   updateMultipler() {
@@ -291,9 +307,17 @@ export class ProfileService {
     console.log(shopItem)
     if (this.updatePoints() >= shopItem.price) {
       shopItem.bought = true
-      shopItem.action()
+      if (shopItem.action.type === 'profilePhoto') {
+        this.profilePhotos[shopItem.action.index].bought = true
+      }
+      if (shopItem.action.type === 'multipler') {
+        this.currentMultipler += shopItem.action.value
+        this.multiplerAfterReset += shopItem.action.value
+      }
+      if (shopItem.action.type === 'money') {
+        this.balance += shopItem.action.value
+      }
     }
-
   }
 
   newGame(type: string) {
