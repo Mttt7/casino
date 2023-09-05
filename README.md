@@ -1,4 +1,5 @@
-## casino
+## CASINO GAME
+Images generated using Midjourney.
 
 https://github.com/Mttt7/casino/assets/102900827/cb533544-fd84-4953-8925-6710a3fadea4
 
